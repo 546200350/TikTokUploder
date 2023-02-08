@@ -16,7 +16,7 @@
 
 ## About The Project
 
-**One line code to uploader video to Tiktok**
+**One line code to upload video to Tiktok**
 
 **This project is based on [Tiktok-uploader](https://github.com/MiniGlome/Tiktok-uploader.git).**
 
