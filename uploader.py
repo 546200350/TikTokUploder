@@ -14,7 +14,7 @@ def uploadVideo(session_id, video, title, tags):
 	r = session.get(url,headers = headers)
 	if not assertSuccess(url, r):
 		return False
-	url = "https://us.tiktok.com/api/v1/web/project/create/?type=1&aid=1988"
+	url = "https://www.tiktok.com/api/v1/web/project/create/?type=1&aid=1988"
 	headers = {
 		"X-Secsdk-Csrf-Request":"1",
 		"X-Secsdk-Csrf-Version":"1.2.8"
@@ -42,7 +42,7 @@ def uploadVideo(session_id, video, title, tags):
 	time.sleep(3)
 	title = result[0]
 	text_extra = result[1]
-	url = "https://us.tiktok.com/api/v1/web/project/post/?aid=1988"
+	url = "https://www.tiktok.com/api/v1/web/project/post/?aid=1988"
 	data = {
 		"upload_param": {
 			"video_param": {
@@ -68,7 +68,8 @@ def uploadVideo(session_id, video, title, tags):
 	}
 	headers = {
 		# "X-Secsdk-Csrf-Token": x_csrf_token,
-		'Host': 'us.tiktok.com',
+		'Host': 'www.tiktok.com',
+		'authority': 'www.tiktok.com',
 		'pragma': 'no-cache',
 		'cache-control': 'no-cache',
 		'sec-ch-ua': '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"',
