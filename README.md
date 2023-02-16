@@ -16,8 +16,6 @@
 
 ## About The Project
 
-**One line code to upload video to Tiktok**
-
 **This project is based on [Tiktok-uploader](https://github.com/MiniGlome/Tiktok-uploader.git).**
 
 This project is a Python3 script that allows you to automatically upload and schedule TikTok videos. With this script, you can automate the process of uploading videos to TikTok, allowing you to save time and focus on creating content.
@@ -80,3 +78,5 @@ This command will publish the video `my_video.mp4` as `MY SUPER TITLE #Funny #Jo
 ```sh
 python3 uploader.py -i 7a9f3c5d8f6e4b2a1c9d8e7f6a5b4c3d -p my_video.mp4 -t "MY SUPER TITLE" --tags Funny Joke Fyp
 ```
+### Note
+ <b>The upload api domain is different from different country. Sometimes, if you upload fail,you may replace all the domain (us.tiktok) to wwww.tikok. you can open the website network pan to find the correct domain.</b>
