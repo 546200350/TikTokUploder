@@ -19,7 +19,7 @@ def getSignatureKey(key, dateStamp, regionName, serviceName):
     return kSigning
 
 
-def AWSsignature(access_key, secret_key, request_parameters, headers, method="GET", payload='', region="us-east-1", service="vod"):
+def AWSsignature(access_key, secret_key, request_parameters, headers, method="GET", payload='', region="ap-singapore-1", service="vod"):
     # https://docs.aws.amazon.com/fr_fr/general/latest/gr/sigv4-signed-request-examples.html
     canonical_uri = '/'
     canonical_querystring = request_parameters
@@ -96,7 +96,7 @@ def uploadToTikTok(video, session):
         video_content = f.read()
     file_size = len(video_content)
     # 进一步处理授权，拿到最终上传数据
-    url = "https://vod-us-east-1.bytevcloudapi.com/"
+    url = "https://vod-ap-singapore-1.bytevcloudapi.com/"
     request_parameters = f'Action=ApplyUploadInner&FileSize={file_size}&FileType=video&IsInner=1&SpaceName=tiktok&Version=2020-11-19&s=zdxefu8qvq8'
     t = datetime.datetime.utcnow()
     amzdate = t.strftime('%Y%m%dT%H%M%SZ')
@@ -107,7 +107,7 @@ def uploadToTikTok(video, session):
     }
     signature = AWSsignature(
         access_key, secret_key, request_parameters, headers)
-    authorization = f"AWS4-HMAC-SHA256 Credential={access_key}/{datestamp}/us-east-1/vod/aws4_request, SignedHeaders=x-amz-date;x-amz-security-token, Signature={signature}"
+    authorization = f"AWS4-HMAC-SHA256 Credential={access_key}/{datestamp}/ap-singapore-1/vod/aws4_request, SignedHeaders=x-amz-date;x-amz-security-token, Signature={signature}"
     headers["authorization"] = authorization
     r = session.get(f"{url}?{request_parameters}", headers=headers)
     if not assertSuccess(url, r):
@@ -167,7 +167,7 @@ def uploadToTikTok(video, session):
     r = requests.post(url, headers=headers, data=data, verify=False)
     if not assertSuccess(url, r):
         return False
-    url = "https://vod-us-east-1.bytevcloudapi.com/"
+    url = "https://vod-ap-singapore-1.bytevcloudapi.com/"
     request_parameters = f'Action=CommitUploadInner&SpaceName=tiktok&Version=2020-11-19'
     t = datetime.datetime.utcnow()
     amzdate = t.strftime('%Y%m%dT%H%M%SZ')
@@ -180,7 +180,7 @@ def uploadToTikTok(video, session):
         "x-amz-security-token": session_token
     }
     signature = AWSsignature(access_key, secret_key, request_parameters, headers, method="POST", payload=data)
-    authorization = f"AWS4-HMAC-SHA256 Credential={access_key}/{datestamp}/us-east-1/vod/aws4_request, SignedHeaders=x-amz-content-sha256;x-amz-date;x-amz-security-token, Signature={signature}"
+    authorization = f"AWS4-HMAC-SHA256 Credential={access_key}/{datestamp}/ap-singapore-1/vod/aws4_request, SignedHeaders=x-amz-content-sha256;x-amz-date;x-amz-security-token, Signature={signature}"
     headers["authorization"] = authorization
     headers["Content-Type"] = "text/plain;charset=UTF-8"
     r = session.post(f"{url}?{request_parameters}", headers=headers, data=data)
