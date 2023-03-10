@@ -10,11 +10,11 @@ def uploadVideo(session_id, video, title, tags):
 	headers = {
 		'User-Agent': UA
 	}
-	url = "https://us.tiktok.com/upload/"
+	url = "https://tiktok.com/upload/"
 	r = session.get(url,headers = headers)
 	if not assertSuccess(url, r):
 		return False
-	url = "https://us.tiktok.com/api/v1/web/project/create/?type=1&aid=1988"
+	url = "https://tiktok.com/api/v1/web/project/create/?type=1&aid=1988"
 	headers = {
 		"X-Secsdk-Csrf-Request":"1",
 		"X-Secsdk-Csrf-Version":"1.2.8"
@@ -26,7 +26,7 @@ def uploadVideo(session_id, video, title, tags):
 	creationID = tempInfo["creationID"]
 	projectID = tempInfo["project_id"]
 	# 获取账号信息
-	url = "https://us.tiktok.com/passport/web/account/info/"
+	url = "https://tiktok.com/passport/web/account/info/"
 	r = session.get(url)
 	if not assertSuccess(url, r):
 		return False
@@ -42,7 +42,7 @@ def uploadVideo(session_id, video, title, tags):
 	time.sleep(3)
 	title = result[0]
 	text_extra = result[1]
-	url = "https://us.tiktok.com/api/v1/web/project/post/?aid=1988"
+	url = "https://tiktok.com/api/v1/web/project/post/?aid=1988"
 	data = {
 		"upload_param": {
 			"video_param": {
@@ -68,8 +68,8 @@ def uploadVideo(session_id, video, title, tags):
 	}
 	headers = {
 		# "X-Secsdk-Csrf-Token": x_csrf_token,
-		'Host': 'us.tiktok.com',
-		'authority': 'us.tiktok.com',
+		'Host': 'tiktok.com',
+		'authority': 'tiktok.com',
 		'pragma': 'no-cache',
 		'cache-control': 'no-cache',
 		'sec-ch-ua': '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"',
@@ -78,11 +78,11 @@ def uploadVideo(session_id, video, title, tags):
 		'sec-ch-ua-mobile': '?0',
 		'user-agent': UA,
 		'sec-ch-ua-platform': '"macOS"',
-		'origin': 'https://us.tiktok.com',
+		'origin': 'https://tiktok.com',
 		'sec-fetch-site': 'same-site',
 		'sec-fetch-mode': 'cors',
 		'sec-fetch-dest': 'empty',
-		'referer': 'https://us.tiktok.com/',
+		'referer': 'https://tiktok.com/',    # network find vn tiktok, referer: https://www.tiktok.com/creator
 		'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8'
 	}
 	r = session.post(url, data=json.dumps(data), headers=headers)
