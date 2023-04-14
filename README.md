@@ -47,15 +47,16 @@ session_id = "7a9f3c5d8f6e4b2a1c9d8e7f6a5b4c3d"
 file = "my_video.mp4"
 title = "MY SUPER TITLE"
 tags = ["Funny", "Joke", "fyp"]
+users = ["amazing dear"]
 
 # Publish the video
-uploadVideo(session_id, file, title, tags)
+uploadVideo(session_id, file, title, tags, users)
 ```
 - `session_id`: Your TikTok *sessionid* cookie.<br>
 - `file`: The path to the video you want to upload.<br>
 - `title`: The title of your publication (without hashtags).<br>
 - `tags`: The list of hashtags you want to add to your post (without `#` symbol). May be empty list `[]`.<br>
-
+- `users`: The list of users you want to mentioned to your post (without `@` symbol). May be empty list `[]`.<br>
 **Note that your TikTok *sessionid* cookie needs to be updated every 2 months.**
 
 ### With the command line
@@ -70,13 +71,14 @@ options:
   -t TITLE, --title TITLE
                         Title of the video
   --tags [TAGS ...]     List of hashtags for the video
+  --users [USERS ...]   List of mentioned users for the video
 ```                        
 The `session_id`, `path` and `title` fields are required.
     
 #### Example
 This command will publish the video `my_video.mp4` as `MY SUPER TITLE #Funny #Joke #fyp`
 ```sh
-python3 uploader.py -i 7a9f3c5d8f6e4b2a1c9d8e7f6a5b4c3d -p my_video.mp4 -t "MY SUPER TITLE" --tags Funny Joke Fyp
+python3 uploader.py -i 7a9f3c5d8f6e4b2a1c9d8e7f6a5b4c3d -p my_video.mp4 -t "MY SUPER TITLE" --tags Funny Joke Fyp --users amazing
 ```
 ### Note
  <b>The upload api domain is different from different country. Sometimes, if you upload fail,you may replace all the domain (us.tiktok) to wwww.tikok. you can open the website network pan to find the correct domain.</b>
