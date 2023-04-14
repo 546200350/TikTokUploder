@@ -65,14 +65,19 @@ def assertSuccess(url, r):
     if r.status_code != 200:
         printError(url, r)
     return r.status_code == 200
+
+
 def log(name):
     print(f'============{name}===========')
 # 获取真实标签
-def getTagsExtra(title ,tags, session):
+
+
+def getTagsExtra(title, tags, users, session):
     text_extra = []
+    # 处理tag
     for tag in tags:
         url = "https://www.tiktok.com/api/upload/challenge/sug/"
-        params = {"keyword":tag}
+        params = {"keyword": tag}
         r = session.get(url, params=params)
         if not assertSuccess(url, r):
             return False
@@ -81,10 +86,29 @@ def getTagsExtra(title ,tags, session):
         except:
             verified_tag = tag
         title += " #"+verified_tag
-        text_extra.append({"start":len(title)-len(verified_tag)-1,"end":len(title),"user_id":"","type":1,"hashtag_name":verified_tag})
-    return title,text_extra
+        text_extra.append({"start": len(title)-len(verified_tag)-1, "end": len(
+            title), "user_id": "", "type": 1, "hashtag_name": verified_tag})
+    # 处理users
+    for user in users:
+        url = "https://us.tiktok.com/api/upload/search/user/"
+        params = {"keyword": user}
+        r = session.get(url, params=params)
+        if not assertSuccess(url, r):
+            return False
+        try:
+            verified_user = r.json()["user_list"][0]["user_info"]["unique_id"]
+            verified_user_id = r.json()["user_list"][0]["user_info"]["uid"]
+        except:
+            verified_user = user
+            verified_user_id = ""
+        title += " @"+verified_user
+        text_extra.append({"start": len(title)-len(verified_user)-1, "end": len(
+            title), "user_id": verified_user_id, "type": 0, "hashtag_name": verified_user})
+    return title, text_extra
 
 # 上传视频
+
+
 def uploadToTikTok(video, session):
     # 获取上传前的授权信息
     url = "https://www.tiktok.com/api/v1/video/upload/auth/"
@@ -121,11 +145,12 @@ def uploadToTikTok(video, session):
 
     # 真正开始上传
     url = f"https://{upload_host}/{store_uri}?uploads"
-    rand = ''.join(random.choice(['0','1','2','3','4','5','6','7','8','9']) for _ in range(30))
+    rand = ''.join(random.choice(
+        ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']) for _ in range(30))
     headers = {
-		"Authorization": video_auth,
-		"Content-Type": f"multipart/form-data; boundary=---------------------------{rand}"
-	}
+        "Authorization": video_auth,
+        "Content-Type": f"multipart/form-data; boundary=---------------------------{rand}"
+    }
     data = f"-----------------------------{rand}--"
     r = session.post(url, headers=headers, data=data)
     if not assertSuccess(url, r):
@@ -174,12 +199,13 @@ def uploadToTikTok(video, session):
     datestamp = t.strftime('%Y%m%d')
     data = '{"SessionKey":"'+session_key+'","Functions":[]}'
     amzcontentsha256 = hashlib.sha256(data.encode('utf-8')).hexdigest()
-    headers = { # Must be in alphabetical order, keys in lower case
+    headers = {  # Must be in alphabetical order, keys in lower case
         "x-amz-content-sha256": amzcontentsha256,
         "x-amz-date": amzdate,
         "x-amz-security-token": session_token
     }
-    signature = AWSsignature(access_key, secret_key, request_parameters, headers, method="POST", payload=data)
+    signature = AWSsignature(
+        access_key, secret_key, request_parameters, headers, method="POST", payload=data)
     authorization = f"AWS4-HMAC-SHA256 Credential={access_key}/{datestamp}/ap-singapore-1/vod/aws4_request, SignedHeaders=x-amz-content-sha256;x-amz-date;x-amz-security-token, Signature={signature}"
     headers["authorization"] = authorization
     headers["Content-Type"] = "text/plain;charset=UTF-8"
