@@ -10,6 +10,11 @@ import zlib
 def sign(key, msg):
     return hmac.new(key, msg.encode('utf-8'), hashlib.sha256).digest()
 
+def getCreationId():
+    length = 21
+    characters = string.ascii_letters + string.digits
+    creationid = ''.join(random.choice(characters) for i in range(length))
+    return creationid
 
 def getSignatureKey(key, dateStamp, regionName, serviceName):
     kDate = sign(('AWS4' + key).encode('utf-8'), dateStamp)
