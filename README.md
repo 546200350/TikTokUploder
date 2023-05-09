@@ -24,7 +24,14 @@ The script is easy to use and requires minimal setup. Simply provide your TikTok
 
 ## Getting Started
 To get started you need to have python3 installed. If it is not the case you can download it here : https://www.python.org/downloads/<br><br>
-You will also need your TikTok ***sessionid* cookie**. To get it log in to your TikTok account and on the page https://www.tiktok.com/ press the F12 key on your keyboard then Application > Storage > Cookies and find the value of the *sessionid* cookie. You should have something like this: `7a9f3c5d8f6e4b2a1c9d8e7f6a5b4c3d` <br><br>
+You will also need your TikTok ***sessionid* cookie** and your **creationid**. 
+To get it log in to your TikTok account and on the page https://www.tiktok.com/ press the F12 key on your keyboard then Application > Storage > Cookies and find the value of the *sessionid* cookie. You should have something like this: `7a9f3c5d8f6e4b2a1c9d8e7f6a5b4c3d` <br>
+To get your **creationid**, go to https://www.tiktok.com/upload and open the Network tab of your browser. Then upload a video, you don't have to post it. Among all the requests, you should find one with the following request URL : https://www.tiktok.com/api/v1/web/project/create/?creation_id=kTsOvXGZfpgmRNNB9Fd8W&type=1&aid=1988
+Your creation id is the value of the creation_id parameter. For example, here it would be: `kTsOvXGZfpgmRNNB9Fd8W`.
+<br><br>
+
+
+
 
 ### Installation
 Make sure you've already git installed. Then you can run the following commands to get the scripts on your computer:
@@ -48,9 +55,10 @@ file = "my_video.mp4"
 title = "MY SUPER TITLE"
 tags = ["Funny", "Joke", "fyp"]
 users = ["amazing dear"]
+creation_id = "kTsOvXGZfpgmRNNB9Fd8W"
 
 # Publish the video
-uploadVideo(session_id, file, title, tags, users)
+uploadVideo(session_id, file, title, tags, users, creation_id)
 ```
 - `session_id`: Your TikTok *sessionid* cookie.<br>
 - `file`: The path to the video you want to upload.<br>
