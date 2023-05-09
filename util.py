@@ -5,6 +5,7 @@ import hashlib
 import hmac
 import random
 import zlib
+import string
 
 
 def sign(key, msg):
