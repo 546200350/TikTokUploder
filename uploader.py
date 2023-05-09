@@ -2,7 +2,7 @@ import requests, json, time
 from util import assertSuccess,printError,getTagsExtra,uploadToTikTok,log
 UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'
 
-def uploadVideo(session_id, video, title, tags, users = []):
+def uploadVideo(session_id, video, title, tags, users = [], creation_id):
 	session = requests.Session()
 
 	session.cookies.set("sessionid", session_id, domain=".tiktok.com")
@@ -14,7 +14,7 @@ def uploadVideo(session_id, video, title, tags, users = []):
 	r = session.get(url,headers = headers)
 	if not assertSuccess(url, r):
 		return False
-	url = "https://us.tiktok.com/api/v1/web/project/create/?type=1&aid=1988"
+	url = f"https://us.tiktok.com/api/v1/web/project/create/?creation_id={creation_id}type=1&aid=1988"
 	headers = {
 		"X-Secsdk-Csrf-Request":"1",
 		"X-Secsdk-Csrf-Version":"1.2.8"
@@ -107,8 +107,9 @@ if __name__ == "__main__":
 	parser.add_argument("-t", "--title", help="Title of the video", required=True)
 	parser.add_argument("--tags", nargs='*', default=[], help="List of hashtags for the video")
 	parser.add_argument("--users", nargs='*', default=[], help="List of mentioned users for the video")
+	parser.add_argument("--creation_id", help="Tiktok creation id",required=True)
 	parser.add_argument("-s", "--schedule_time", type=int, default=0, help="schedule timestamp for video upload")
 	args = parser.parse_args()
     # python3 ./uploader.py -i 'your sessionid' -p ./download/test.mp4 -t  测试上传
 	# uploadVideo('your sessionid', './download/test.mp4', '就问你批不批', ['热门'],[])
-	uploadVideo(args.session_id, args.path, args.title, args.tags, args.users)
+	uploadVideo(args.session_id, args.path, args.title, args.tags, args.users, args.creation_id)
