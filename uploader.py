@@ -15,7 +15,7 @@ def uploadVideo(session_id, video, title, tags, users = []):
 	if not assertSuccess(url, r):
 		return False
 	creationid = getCreationId()
-	url = f"https://us.tiktok.com/api/v1/web/project/create/?creation_id={creationid}type=1&aid=1988"
+	url = f"https://us.tiktok.com/api/v1/web/project/create/?creation_id={creationid}&type=1&aid=1988"
 	headers = {
 		"X-Secsdk-Csrf-Request":"1",
 		"X-Secsdk-Csrf-Version":"1.2.8"
