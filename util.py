@@ -78,7 +78,7 @@ def log(name):
 # 获取真实标签
 
 
-def getTagsExtra(title, tags, users, session):
+def getTagsExtra(title, tags, users, session, url_prefix):
     text_extra = []
     # 处理tag
     for tag in tags:
@@ -96,7 +96,7 @@ def getTagsExtra(title, tags, users, session):
             title), "user_id": "", "type": 1, "hashtag_name": verified_tag})
     # 处理users
     for user in users:
-        url = "https://us.tiktok.com/api/upload/search/user/"
+        url = f"https://{url_prefix}.tiktok.com/api/upload/search/user/"
         params = {"keyword": user}
         r = session.get(url, params=params)
         if not assertSuccess(url, r):
