@@ -59,6 +59,7 @@ uploadVideo(session_id, file, title, tags, users)
 - `title`: The title of your publication (without hashtags).<br>
 - `tags`: The list of hashtags you want to add to your post (without `#` symbol). May be empty list `[]`.<br>
 - `users`: The list of users you want to mentioned to your post (without `@` symbol). May be empty list `[]`.<br>
+- `url_prefix`: default: us, The request domain. Different countries require different domain configurations.<br>
 **Note that your TikTok *sessionid* cookie needs to be updated every 2 months.**
 
 ### With the command line
