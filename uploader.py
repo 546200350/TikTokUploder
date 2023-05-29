@@ -73,7 +73,7 @@ def uploadVideo(session_id, video, title, tags, users = [], url_prefix = "us"):
 	}
 	headers = {
 		# "X-Secsdk-Csrf-Token": x_csrf_token,
-		'Host': 'us.tiktok.com',
+		'Host': f'{url_prefix}.tiktok.com',
 		'authority': 'tiktok.com',
 		'pragma': 'no-cache',
 		'cache-control': 'no-cache',
