@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+import datetime
 
 from util import assertSuccess, printError, getTagsExtra, uploadToTikTok, log, getCreationId
 
@@ -8,7 +9,11 @@ from util import assertSuccess, printError, getTagsExtra, uploadToTikTok, log, g
 UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'
 
 
-def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", schedule_time: int = None, proxy: str = None):
+def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", schedule_time: int = None, proxy: dict = None):
+	if schedule_time - datetime.datetime.now().timestamp() > 864000:  # 864000s = 10 days
+		print("[-] Can not schedule video in more than 10 days")
+		return False
+
 	session = requests.Session()
 
 	if proxy:
@@ -80,7 +85,7 @@ def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", sched
 		"single_upload_param": [],
 		"video_id": video_id
 	}
-	if schedule_time:
+	if schedule_time and schedule_time - datetime.datetime.now().timestamp() > 900:  # 900s = 15min
 		data["upload_param"]["schedule_time"] = schedule_time
 	headers = {
 		# "X-Secsdk-Csrf-Token": x_csrf_token,
@@ -103,13 +108,13 @@ def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", sched
 	}
 	r = session.post(url, data=json.dumps(data), headers=headers)
 	if not assertSuccess(url, r):
-		log('Publish failed')
+		log("Publish failed")
 		printError(url, r)
 		return False
 	if r.json()["status_code"] == 0:
-		log('Published successfully')
+		log(f"Published successfully {'| Scheduled for ' + str(schedule_time) if schedule_time else ''}")
 	else:
-		log('Publish failed')
+		log("Publish failed")
 		printError(url, r)
 		return False
 
@@ -129,4 +134,4 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 	# python3 ./uploader.py -i 'your sessionid' -p ./download/test.mp4 -t  测试上传
 	# uploadVideo('your sessionid', './download/test.mp4', '就问你批不批', ['热门'],[])
-	uploadVideo(args.session_id, args.path, args.title, args.tags, args.users, args.url_server)
+	uploadVideo(args.session_id, args.path, args.title, args.tags, args.users, args.url_server, args.schedule_time)
