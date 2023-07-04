@@ -1,8 +1,13 @@
-import requests, json, time
-from util import assertSuccess,printError,getTagsExtra,uploadToTikTok,log, getCreationId
+import requests
+import json
+import time
+from util import assertSuccess, printError, getTagsExtra, uploadToTikTok, log, getCreationId
+
+
 UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'
 
-def uploadVideo(session_id, video, title, tags, users = [], url_prefix = "us", schedule_time: int = None, proxy: str = None):
+
+def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", schedule_time: int = None, proxy: str = None):
 	session = requests.Session()
 
 	if proxy:
@@ -13,14 +18,14 @@ def uploadVideo(session_id, video, title, tags, users = [], url_prefix = "us", s
 		'User-Agent': UA
 	}
 	url = f"https://{url_prefix}.tiktok.com/upload/"
-	r = session.get(url,headers = headers)
+	r = session.get(url, headers=headers)
 	if not assertSuccess(url, r):
 		return False
 	creationid = getCreationId()
 	url = f"https://{url_prefix}.tiktok.com/api/v1/web/project/create/?creation_id={creationid}&type=1&aid=1988"
 	headers = {
-		"X-Secsdk-Csrf-Request":"1",
-		"X-Secsdk-Csrf-Version":"1.2.8"
+		"X-Secsdk-Csrf-Request": "1",
+		"X-Secsdk-Csrf-Version": "1.2.8"
 	}
 	r = session.post(url, headers=headers)
 	if not assertSuccess(url, r):
@@ -30,6 +35,7 @@ def uploadVideo(session_id, video, title, tags, users = [], url_prefix = "us", s
 	except KeyError:
 		print(f"[-] An error occured while reaching {url}")
 		print("[-] Please try to change the --url_server argument to the adapted prefix for your account")
+		return False
 	creationID = tempInfo["creationID"]
 	projectID = tempInfo["project_id"]
 	# 获取账号信息
@@ -39,13 +45,13 @@ def uploadVideo(session_id, video, title, tags, users = [], url_prefix = "us", s
 		return False
 	# user_id = r.json()["data"]["user_id_str"]
 	log("开始上传视频")
-	video_id = uploadToTikTok(video,session)
+	video_id = uploadToTikTok(video, session)
 	if not video_id:
 		log('视频上传失败')
 		return False
 	log("视频上传成功")
 	time.sleep(2)
-	result = getTagsExtra(title,tags,users,session,url_prefix)
+	result = getTagsExtra(title, tags, users, session, url_prefix)
 	time.sleep(3)
 	title = result[0]
 	text_extra = result[1]
@@ -108,6 +114,7 @@ def uploadVideo(session_id, video, title, tags, users = [], url_prefix = "us", s
 
 	return True
 
+
 if __name__ == "__main__":
 	import argparse
 	parser = argparse.ArgumentParser()
@@ -119,6 +126,6 @@ if __name__ == "__main__":
 	parser.add_argument("-s", "--schedule_time", type=int, default=0, help="Schedule timestamp for video upload")
 	parser.add_argument("--url_server", type=str, default="us", choices=["us", "www"], help="Specify the prefix of url (www or us)")
 	args = parser.parse_args()
-    # python3 ./uploader.py -i 'your sessionid' -p ./download/test.mp4 -t  测试上传
+	# python3 ./uploader.py -i 'your sessionid' -p ./download/test.mp4 -t  测试上传
 	# uploadVideo('your sessionid', './download/test.mp4', '就问你批不批', ['热门'],[])
 	uploadVideo(args.session_id, args.path, args.title, args.tags, args.users, args.url_server)
