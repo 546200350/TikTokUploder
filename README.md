@@ -61,7 +61,9 @@ uploadVideo(session_id, file, title, tags, users, proxy=proxy)
 - `tags`: The list of hashtags you want to add to your post (without `#` symbol). May be empty list `[]`.<br>
 - `users`: The list of users you want to mentioned to your post (without `@` symbol). May be empty list `[]`.<br>
 - `url_prefix`: default: us, The request domain. Different countries require different domain configurations.<br>
+- `schedule_time`: The timestamp (in seconds) at which you want to schedule your video. May be `None` (publish now).<br>
 - `proxy`: The proxy you want to use should be in dict format, you can include ```user:pass``` if you require auth. May be ```None```<br>
+**Note that you cannot schedule a video more than 10 days in advance.**<br>
 **Note that your TikTok *sessionid* cookie needs to be updated every 2 months.**
 
 ### With the command line
