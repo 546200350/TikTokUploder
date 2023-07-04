@@ -2,9 +2,11 @@ import requests, json, time
 from util import assertSuccess,printError,getTagsExtra,uploadToTikTok,log, getCreationId
 UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'
 
-def uploadVideo(session_id, video, title, tags, users = [], url_prefix = "us"):
+def uploadVideo(session_id, video, title, tags, users = [], url_prefix = "us", proxy: str = None):
 	session = requests.Session()
 
+	if proxy:
+		session.proxies.update(proxy)
 	session.cookies.set("sessionid", session_id, domain=".tiktok.com")
 	session.verify = True
 	headers = {
