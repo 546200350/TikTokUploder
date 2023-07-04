@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+
 from util import assertSuccess, printError, getTagsExtra, uploadToTikTok, log, getCreationId
 
 
@@ -44,12 +45,12 @@ def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", sched
 	if not assertSuccess(url, r):
 		return False
 	# user_id = r.json()["data"]["user_id_str"]
-	log("开始上传视频")
+	log("Start uploading video")
 	video_id = uploadToTikTok(video, session)
 	if not video_id:
-		log('视频上传失败')
+		log("Video upload failed")
 		return False
-	log("视频上传成功")
+	log("Video uploaded successfully")
 	time.sleep(2)
 	result = getTagsExtra(title, tags, users, session, url_prefix)
 	time.sleep(3)
@@ -102,13 +103,13 @@ def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", sched
 	}
 	r = session.post(url, data=json.dumps(data), headers=headers)
 	if not assertSuccess(url, r):
-		log('发布失败')
+		log('Publish failed')
 		printError(url, r)
 		return False
 	if r.json()["status_code"] == 0:
-		log('发布成功')
+		log('Published successfully')
 	else:
-		log('发布失败')
+		log('Publish failed')
 		printError(url, r)
 		return False
 
