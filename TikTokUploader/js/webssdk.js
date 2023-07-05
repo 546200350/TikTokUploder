@@ -9,8 +9,9 @@ const location = window.location
 setTimeout = function () { return function () { } };
 setInterval = function () { };
 
-var postUrl = 'https://us.tiktok.com/api/v1/web/project/post/?app_name=tiktok_web&channel=tiktok_web&device_platform=web&aid=1988'
-function getSecretUrl(data) {
+
+function getSecretUrl(data, url_prefix) {
+    var postUrl = `https://${url_prefix}.tiktok.com/api/v1/web/project/post/?app_name=tiktok_web&channel=tiktok_web&device_platform=web&aid=1988`;
     var _0x46e6c0 = {};
     try {
         'use strict';

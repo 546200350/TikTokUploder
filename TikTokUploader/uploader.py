@@ -97,7 +97,7 @@ def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", sched
 		data["upload_param"]["schedule_time"] = schedule_time
 	with open(Path(__file__).parent / f'./js/webssdk.js', encoding='utf-8') as f:
 		webssdk = f.read()
-	response = execjs.compile(webssdk).call('getSecretUrl', data)
+	response = execjs.compile(webssdk).call('getSecretUrl', data, url_prefix)
 	url = response['url']
 	ua = response['ua']
 	reqData = json.dumps(data, separators=(',', ':'), ensure_ascii=False)
