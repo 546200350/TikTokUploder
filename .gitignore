@@ -3,3 +3,5 @@ a.json
 __pycache__
 download
 .DS_Store
+node_modules
+localTest

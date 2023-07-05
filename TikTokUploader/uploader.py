@@ -1,6 +1,7 @@
 import requests
 import json
 import time
+import execjs
 import datetime
 
 from .util import assertSuccess, printError, getTagsExtra, uploadToTikTok, log, getCreationId
@@ -61,7 +62,12 @@ def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", sched
 	time.sleep(3)
 	title = result[0]
 	text_extra = result[1]
-	url = f"https://{url_prefix}.tiktok.com/api/v1/web/project/post/?aid=1988"
+	postQuery = {
+		'app_name': 'tiktok_web',
+		'channel': 'tiktok_web',
+		'device_platform': 'web',
+		'aid': 1988
+	}
 	data = {
 		"upload_param": {
 			"video_param": {
@@ -83,30 +89,23 @@ def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", sched
 		"project_id": projectID,
 		"draft": "",
 		"single_upload_param": [],
-		"video_id": video_id
+		"video_id": video_id,
+		"creation_id": creationID
 	}
 	if schedule_time and schedule_time - datetime.datetime.now().timestamp() > 900:  # 900s = 15min
 		data["upload_param"]["schedule_time"] = schedule_time
+	response = execjs.compile(open('./js/webssdk.js').read()).call('getSecretUrl', data)
+	url = response['url']
+	ua = response['ua']
+	reqData = json.dumps(data, separators=(',', ':'), ensure_ascii=False)
 	headers = {
-		# "X-Secsdk-Csrf-Token": x_csrf_token,
 		'Host': f'{url_prefix}.tiktok.com',
-		'authority': 'tiktok.com',
-		'pragma': 'no-cache',
-		'cache-control': 'no-cache',
-		'sec-ch-ua': '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"',
-		'accept': 'application/json, text/plain, */*',
 		'content-type': 'application/json',
-		'sec-ch-ua-mobile': '?0',
-		'user-agent': UA,
-		'sec-ch-ua-platform': '"macOS"',
+		'user-agent': ua,
 		'origin': 'https://www.tiktok.com',
-		'sec-fetch-site': 'same-site',
-		'sec-fetch-mode': 'cors',
-		'sec-fetch-dest': 'empty',
-		'referer': 'https://www.tiktok.com/',    # network find vn tiktok, referer: https://us.tiktok.com/creator
-		'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8'
+		'referer': 'https://www.tiktok.com/'
 	}
-	r = session.post(url, data=json.dumps(data), headers=headers)
+	r = session.post(url, data=reqData.encode('utf-8'), headers=headers)
 	if not assertSuccess(url, r):
 		log("Publish failed")
 		printError(url, r)
