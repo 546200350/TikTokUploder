@@ -3,6 +3,7 @@ import json
 import time
 import execjs
 import datetime
+from pathlib import Path
 
 from .util import assertSuccess, printError, getTagsExtra, uploadToTikTok, log, getCreationId
 
@@ -94,7 +95,9 @@ def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", sched
 	}
 	if schedule_time and schedule_time - datetime.datetime.now().timestamp() > 900:  # 900s = 15min
 		data["upload_param"]["schedule_time"] = schedule_time
-	response = execjs.compile(open('./js/webssdk.js').read()).call('getSecretUrl', data)
+	with open(Path(__file__).parent / f'./js/webssdk.js', encoding='utf-8') as f:
+		webssdk = f.read()
+	response = execjs.compile(webssdk).call('getSecretUrl', data)
 	url = response['url']
 	ua = response['ua']
 	reqData = json.dumps(data, separators=(',', ':'), ensure_ascii=False)
