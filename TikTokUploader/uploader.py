@@ -6,13 +6,13 @@ import re
 import datetime
 from pathlib import Path
 
-from .util import assertSuccess, printError, getTagsExtra, uploadToTikTok, log, getCreationId
+from util import assertSuccess, printError, getTagsExtra, uploadToTikTok, log, getCreationId
 
 
 UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'
 
 
-def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", schedule_time: int = None, proxy: dict = None):
+def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", schedule_time: int = 0, proxy: dict = None):
 	if schedule_time - datetime.datetime.now().timestamp() > 864000:  # 864000s = 10 days
 		print("[-] Can not schedule video in more than 10 days")
 		return False
