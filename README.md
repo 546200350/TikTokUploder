@@ -25,7 +25,7 @@ This project is a Python3 script that allows you to automatically upload and sch
 The script is easy to use and requires minimal setup. Simply provide your TikTok *sessionid* cookie, the video file you wish to upload and the video details, and the script will handle the rest.
 
 ## Getting Started
-To get started you need to have python3 and node installed. If it is not the case you can download it here : https://www.python.org/downloads/ and https://nodejs.org/<br><br>
+To get started you need to have python3. If it is not the case you can download it here : https://www.python.org/downloads <br><br>
 You will also need your TikTok ***sessionid* cookie**. To get it log in to your TikTok account and on the page https://www.tiktok.com/ press the F12 key on your keyboard then Application > Storage > Cookies and find the value of the *sessionid* cookie. You should have something like this: `7a9f3c5d8f6e4b2a1c9d8e7f6a5b4c3d` <br><br>
 
 ### Installation
@@ -37,12 +37,6 @@ Make sure you've already git installed. Then you can run the following commands 
 The script only requires the `requests` module, you can install it with this command:
 ```sh
 pip install -r requirements.txt
-```
-Install the node modules
-```sh
-npm install 
-# Or
-yarn
 ```
    
 ## Usage
@@ -94,7 +88,7 @@ This command will publish the video `my_video.mp4` as `MY SUPER TITLE #Funny #Jo
 python3 uploader.py -i 7a9f3c5d8f6e4b2a1c9d8e7f6a5b4c3d -p my_video.mp4 -t "MY SUPER TITLE" --tags Funny Joke Fyp --users amazing
 ```
 #### TODO
-- [ ] The JS algorithm simulation in Python
+- [x] The JS algorithm simulation in Python
 
 ## <a href="https://bmc.link/gugezhangyK" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-blue.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 ### Note
