@@ -93,5 +93,9 @@ This command will publish the video `my_video.mp4` as `MY SUPER TITLE #Funny #Jo
 ```sh
 python3 uploader.py -i 7a9f3c5d8f6e4b2a1c9d8e7f6a5b4c3d -p my_video.mp4 -t "MY SUPER TITLE" --tags Funny Joke Fyp --users amazing
 ```
+#### TODO
+-[]
+
+## <a href="https://bmc.link/gugezhangyK" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-blue.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 ### Note
  <b>The upload api domain is different from different country. Sometimes, if you upload fail,you may replace all the domain (us.tiktok) to wwww.tikok. you can open the website network pan to find the correct domain.</b>
