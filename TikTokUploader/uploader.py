@@ -3,6 +3,7 @@ import json
 import time
 import datetime
 from x_bogus_ import get_x_bogus
+from urllib.parse import urlencode
 
 from util import assertSuccess, printError, getTagsExtra, uploadToTikTok, log, getCreationId
 
