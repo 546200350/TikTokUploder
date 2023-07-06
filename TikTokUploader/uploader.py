@@ -1,10 +1,8 @@
 import requests
 import json
 import time
-import subprocess
-import re
 import datetime
-from pathlib import Path
+from x_bogus_ import get_x_bogus
 
 from util import assertSuccess, printError, getTagsExtra, uploadToTikTok, log, getCreationId
 
@@ -96,29 +94,16 @@ def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", sched
 	}
 	if schedule_time and schedule_time - datetime.datetime.now().timestamp() > 900:  # 900s = 15min
 		data["upload_param"]["schedule_time"] = schedule_time
-
-	# Use subprocess to call the webssdk.js file
-	webssdk_path = Path(__file__).parent / f'./js/webssdk.js'
-	command = ['node', webssdk_path, json.dumps(data), url_prefix]
-
-	response = subprocess.check_output(command, encoding='utf-8').strip()[2:]
-
-	response = response.replace("'", "\"")
-	response = re.sub(r"(\w+):\s", r'"\1": ', response)
-
-	response = json.loads(response)
-
-	url = response['url']
-	ua = response['ua']
-	reqData = json.dumps(data, separators=(',', ':'), ensure_ascii=False)
+	postQuery['X-Bogus'] = get_x_bogus(urlencode(postQuery), json.dumps(data, separators=(',', ':')), UA)
+	url = 'https://us.tiktok.com/api/v1/web/project/post/'
 	headers = {
 		'Host': f'{url_prefix}.tiktok.com',
 		'content-type': 'application/json',
-		'user-agent': ua,
+		'user-agent': UA,
 		'origin': 'https://www.tiktok.com',
 		'referer': 'https://www.tiktok.com/'
 	}
-	r = session.post(url, data=reqData.encode('utf-8'), headers=headers)
+	r = session.post(url, params=postQuery, data=json.dumps(data, separators=(',', ':')), headers=headers)
 	if not assertSuccess(url, r):
 		log("Publish failed")
 		printError(url, r)
