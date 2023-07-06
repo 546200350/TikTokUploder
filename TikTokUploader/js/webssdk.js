@@ -9,8 +9,9 @@ const location = window.location
 setTimeout = function () { return function () { } };
 setInterval = function () { };
 
-var postUrl = 'https://us.tiktok.com/api/v1/web/project/post/?app_name=tiktok_web&channel=tiktok_web&device_platform=web&aid=1988'
-function getSecretUrl(data) {
+
+function getSecretUrl(data, url_prefix) {
+    var postUrl = `https://${url_prefix}.tiktok.com/api/v1/web/project/post/?app_name=tiktok_web&channel=tiktok_web&device_platform=web&aid=1988`;
     var _0x46e6c0 = {};
     try {
         'use strict';
@@ -3010,8 +3011,6 @@ function getSecretUrl(data) {
             }
             return _0x2879a6['p'] = null,
                 function _0x570479(_0x57a464, _0x25fb8a, _0x4534ec, _0x416c5d, _0x4b3b4f) {
-                    // console.log('a==>',JSON.stringify(_0x25fb8a));
-                    // console.log('a1==>',JSON.stringify(_0x416c5d));
                     var _0x3b9e76, _0x3e7cdc, _0x5ebd5a, _0x6bd125, _0x571681 = -(0x10de + 0x6e2 + -0x17bf * 0x1), _0x55aac5 = [], _0x5506f6 = [0xf46 + -0x3d * 0x9a + 0xc * 0x1c9, null], _0x3c2c88 = null, _0x3a0554 = [_0x25fb8a];
                     for (_0x3e7cdc = Math['min'](_0x25fb8a['length'], _0x4534ec),
                         _0x5ebd5a = -0x22a1 + 0x139c + 0xf05; _0x5ebd5a < _0x3e7cdc; ++_0x5ebd5a)
@@ -8650,8 +8649,6 @@ function getSecretUrl(data) {
             }
             return _0x17f340['p'] = null,
                 function _0x1302fa(_0x35479c, _0x3b30b5, _0x455331, _0xdb4bdd, _0x35e783) {
-                    // console.log('b==>',JSON.stringify(_0x35e783))
-
                     var _0x12eb00, _0x2a246c, _0x828dfa, _0x983cb4, _0x17e0e0, _0x3078fc = -(-0x930 + -0x1aa7 + -0x7c * -0x4a), _0x5ca541 = [], _0x183ece = [-0x1a6e + 0x518 + 0x1556, null], _0x56e495 = null, _0x4daca1 = [_0x3b30b5];
                     for (_0x2a246c = Math['min'](_0x3b30b5['length'], _0x455331),
                         _0x828dfa = 0x2342 + -0x3 * -0x4a7 + -0x3137; _0x828dfa < _0x2a246c; ++_0x828dfa)
@@ -8852,12 +8849,10 @@ function getSecretUrl(data) {
                                                             (_0x4daca1 = [_0x828dfa]['concat'](_0x828dfa))['length'] = Math['min'](_0x2a246c[0xa * 0x3a7 + -0x68f + -0x1df6], _0x12eb00) + (-0xd * -0x136 + -0x268c + 0x16cf),
                                                             _0x4daca1['p'] = _0x2a246c[-0xcf7 * -0x2 + 0x221e + -0x109 * 0x3a],
                                                             _0x4681ce = []) : _0x5ca541[++_0x3078fc] = _0x2a246c['apply'](_0x983cb4, _0x828dfa);
-                                                            console.log(_0x828dfa)
                                                     /** 关键代码  */
                                                     if (_0x828dfa && _0x828dfa[0] && _0x828dfa[0].indexOf && _0x828dfa[0].indexOf(postUrl) !== -1) {
 
                                                         if (_0x828dfa[0].indexOf('msToken') !== -1 && _0x828dfa[0].indexOf('X-Bogus') !== -1) {
-                                                            console.log(_0x828dfa[0])
                                                             throw new Error(_0x828dfa[0])
                                                         }
                                                     }
@@ -9678,6 +9673,11 @@ function getSecretUrl(data) {
         return {url: error.message,ua: window.navigator.userAgent};
     }
 }
+
+// Print out the output of getSecretUrl with the data provided in second arg
+console.log(getSecretUrl(JSON.parse(process.argv[2]), process.argv[3]));
+
+
 module.exports = {
     getSecretUrl
 };
