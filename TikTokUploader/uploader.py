@@ -96,7 +96,7 @@ def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", sched
 	if schedule_time and schedule_time - datetime.datetime.now().timestamp() > 900:  # 900s = 15min
 		data["upload_param"]["schedule_time"] = schedule_time
 	postQuery['X-Bogus'] = get_x_bogus(urlencode(postQuery), json.dumps(data, separators=(',', ':')), UA)
-	url = 'https://us.tiktok.com/api/v1/web/project/post/'
+	url = f'https://{url_prefix}.tiktok.com/api/v1/web/project/post/'
 	headers = {
 		'Host': f'{url_prefix}.tiktok.com',
 		'content-type': 'application/json',
