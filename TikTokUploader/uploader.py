@@ -2,10 +2,10 @@ import requests
 import json
 import time
 import datetime
-from x_bogus_ import get_x_bogus
 from urllib.parse import urlencode
 
-from .util import assertSuccess, printError, getTagsExtra, uploadToTikTok, log, getCreationId
+from TikTokUploader.x_bogus_ import get_x_bogus
+from TikTokUploader.util import assertSuccess, printError, getTagsExtra, uploadToTikTok, log, getCreationId
 
 
 UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'
@@ -96,7 +96,7 @@ def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", sched
 	if schedule_time and schedule_time - datetime.datetime.now().timestamp() > 900:  # 900s = 15min
 		data["upload_param"]["schedule_time"] = schedule_time
 	postQuery['X-Bogus'] = get_x_bogus(urlencode(postQuery), json.dumps(data, separators=(',', ':')), UA)
-	url = 'https://us.tiktok.com/api/v1/web/project/post/'
+	url = f'https://{url_prefix}.tiktok.com/api/v1/web/project/post/'
 	headers = {
 		'Host': f'{url_prefix}.tiktok.com',
 		'content-type': 'application/json',
