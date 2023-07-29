@@ -108,7 +108,8 @@ def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", sched
 	if schedule_time and schedule_time > min_schedule_time:
 		data["upload_param"]["schedule_time"] = schedule_time
 	else:
-		log("Video schedule time is no more than 15 minutes in the future")
+		log(f"Video schedule time is less than {tiktok_min_margin_schedule_time // 60} minutes in the future, the upload process took more than"
+			f"the {margin_to_upload_video // 60} minutes of margin to upload the video")
 		return False
 	postQuery['X-Bogus'] = get_x_bogus(urlencode(postQuery), json.dumps(data, separators=(',', ':')), UA)
 	url = f'https://{url_prefix}.tiktok.com/api/v1/web/project/post/'
