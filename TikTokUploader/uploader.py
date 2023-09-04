@@ -12,8 +12,21 @@ UA = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chr
 
 
 def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", schedule_time: int = 0, proxy: dict = None):
-	if schedule_time - datetime.datetime.now().timestamp() > 864000:  # 864000s = 10 days
-		print("[-] Can not schedule video in more than 10 days")
+	# In the TikTok web version, the schedule must be as least 15 minutes in the future, and a maximum of 10 days, also the minutes in schedule_time must be multiple of 5
+	tiktok_min_margin_schedule_time =  900  # 15 minutes
+	tiktok_max_margin_schedule_time = 864000  # 10 days
+	margin_to_upload_video = 300  # 5 minutes
+
+	min_schedule_time = datetime.datetime.utcnow().timestamp() + tiktok_min_margin_schedule_time + margin_to_upload_video
+	max_schedule_time = datetime.datetime.utcnow().timestamp() + tiktok_max_margin_schedule_time
+
+	if schedule_time == 0:
+		pass
+	elif schedule_time < min_schedule_time:
+		print(f"[-] Can not schedule video in less than {(tiktok_min_margin_schedule_time + margin_to_upload_video) // 60} minutes")
+		return False
+	elif schedule_time > max_schedule_time:
+		print(f"[-] Can not schedule video in more than {tiktok_max_margin_schedule_time // 86400} days")
 		return False
 
 	session = requests.Session()
@@ -85,7 +98,7 @@ def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", sched
 			"creation_id": creationID,
 			"is_uploaded_in_batch": False,
 			"is_enable_playlist": False,
-			"is_added_to_playlist": False
+			"is_added_to_playlist": False,
 		},
 		"project_id": projectID,
 		"draft": "",
@@ -93,8 +106,15 @@ def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", sched
 		"video_id": video_id,
 		"creation_id": creationID
 	}
-	if schedule_time and schedule_time - datetime.datetime.now().timestamp() > 900:  # 900s = 15min
+	if schedule_time == 0:
+		pass
+	elif schedule_time > min_schedule_time:
+		# Confirm again because the video upload can be very long
 		data["upload_param"]["schedule_time"] = schedule_time
+	else:
+		log(f"Video schedule time is less than {tiktok_min_margin_schedule_time // 60} minutes in the future, the upload process took more than"
+			f"the {margin_to_upload_video // 60} minutes of margin to upload the video")
+		return False
 	postQuery['X-Bogus'] = get_x_bogus(urlencode(postQuery), json.dumps(data, separators=(',', ':')), UA)
 	url = f'https://{url_prefix}.tiktok.com/api/v1/web/project/post/'
 	headers = {
