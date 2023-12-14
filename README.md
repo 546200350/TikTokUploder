@@ -92,6 +92,6 @@ For example: automatically retrieve and publish user videos from third-party pla
 
 For any other ideas, feel free to contact me via [Telegram](https://t.me/bird_biubiubiu).
 
-## <a href="https://bmc.link/gugezhangyK" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-blue.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+## <a href="https://bmc.link/gugezhangyK" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-blue.png" alt="Buy Me A Coffee" style="height: 24px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 ### Note
  <b>The upload api domain is different from different country. Sometimes, if you upload fail,you may replace all the domain (us.tiktok) to wwww.tikok. you can open the website network pan to find the correct domain.</b>
