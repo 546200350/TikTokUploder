@@ -16,8 +16,6 @@
 
 ## About The Project
 
-**This project is based on [Tiktok-uploader](https://github.com/MiniGlome/Tiktok-uploader.git).**
-
 **If you found it helpful, please give me a little star, TKS!**
 
 This project is a Python3 script that allows you to automatically upload and schedule TikTok videos. With this script, you can automate the process of uploading videos to TikTok, allowing you to save time and focus on creating content.
