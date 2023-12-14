@@ -86,8 +86,10 @@ This command will publish the video `my_video.mp4` as `MY SUPER TITLE #Funny #Jo
 python3 ./TikTokUploader/uploader.py -i 7a9f3c5d8f6e4b2a1c9d8e7f6a5b4c3d -p my_video.mp4 -t "MY SUPER TITLE" --tags Funny Joke Fyp --users amazing
 ```
 #### Extendtion
-You can achieve various sophisticated automation operations through this plugin:
+You can achieve various sophisticated automation operations through this plugin.
+
 For example: automatically retrieve and publish user videos from third-party platforms (YouTube, Douyin) or local videos.
+
 For any other ideas, feel free to contact me via [Telegram](https://t.me/bird_biubiubiu).
 
 ## <a href="https://bmc.link/gugezhangyK" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-blue.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
