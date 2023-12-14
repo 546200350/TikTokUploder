@@ -95,3 +95,10 @@ For any other ideas, feel free to contact me via [Telegram](https://t.me/bird_bi
 ## <a href="https://bmc.link/gugezhangyK" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-blue.png" alt="Buy Me A Coffee" style="height: 24px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 ### Note
  <b>The upload api domain is different from different country. Sometimes, if you upload fail,you may replace all the domain (us.tiktok) to wwww.tikok. you can open the website network pan to find the correct domain.</b>
+## Disclaimer
+1. This application is an open-source project intended for learning and research purposes.
+2. The author assumes no responsibility for any direct or indirect losses incurred through the use of this application.
+3. When using this application, it is essential to comply with the laws and regulations of your country or region and refrain from any illegal activities.
+
+By using this application, you agree to and accept all the terms and conditions of this disclaimer. If you do not agree with these terms, please refrain from using this application.
+
