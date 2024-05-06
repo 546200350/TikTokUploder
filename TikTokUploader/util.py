@@ -5,6 +5,7 @@ import hmac
 import random
 import zlib
 import string
+from requests_auth_aws_sigv4 import AWSSigV4
 
 
 def sign(key, msg):
@@ -25,6 +26,15 @@ def getSignatureKey(key, dateStamp, regionName, serviceName):
     kSigning = sign(kService, 'aws4_request')
     return kSigning
 
+def getAWS(access_key, secret_key, session_token, region):
+     aws_auth = AWSSigV4(
+		"vod",
+		region=region,
+		aws_access_key_id=access_key,
+		aws_secret_access_key=secret_key,
+		aws_session_token= session_token,
+	)
+     return aws_auth
 
 def AWSsignature(access_key, secret_key, request_parameters, headers, method="GET", payload='', region="ap-singapore-1", service="vod"):
     # https://docs.aws.amazon.com/fr_fr/general/latest/gr/sigv4-signed-request-examples.html
@@ -127,20 +137,10 @@ def uploadToTikTok(video, session):
         video_content = f.read()
     file_size = len(video_content)
     # 进一步处理授权，拿到最终上传数据
-    url = "https://vod-ap-singapore-1.bytevcloudapi.com/"
-    request_parameters = f'Action=ApplyUploadInner&FileSize={file_size}&FileType=video&IsInner=1&SpaceName=tiktok&Version=2020-11-19&s=zdxefu8qvq8'
-    t = datetime.datetime.utcnow()
-    amzdate = t.strftime('%Y%m%dT%H%M%SZ')
-    datestamp = t.strftime('%Y%m%d')
-    headers = {  # Must be in alphabetical order, keys in lower case
-        "x-amz-date": amzdate,
-        "x-amz-security-token": session_token
-    }
-    signature = AWSsignature(
-        access_key, secret_key, request_parameters, headers)
-    authorization = f"AWS4-HMAC-SHA256 Credential={access_key}/{datestamp}/ap-singapore-1/vod/aws4_request, SignedHeaders=x-amz-date;x-amz-security-token, Signature={signature}"
-    headers["authorization"] = authorization
-    r = session.get(f"{url}?{request_parameters}", headers=headers)
+    url = f"https://www.tiktok.com/top/v1"
+    request_parameters = f'Action=ApplyUploadInner&Version=2020-11-19&SpaceName=tiktok&FileType=video&IsInner=1&FileSize={file_size}&s=g158iqx8434'
+    signatureAuth = getAWS(access_key, secret_key, session_token, "ap-singapore-1")
+    r = session.get(f"{url}?{request_parameters}", auth=signatureAuth)
     if not assertSuccess(url, r):
         return False
     upload_node = r.json()["Result"]["InnerUploadAddress"]["UploadNodes"][0]
