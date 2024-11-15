@@ -83,28 +83,45 @@ def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", sched
 		'aid': 1988
 	}
 	data = {
-		"upload_param": {
-			"video_param": {
-				"text": title,
-				"text_extra": text_extra,
-				"poster_delay": 0
-			},
-			"visibility_type": 0,
-			"allow_comment": 1,
-			"allow_duet": 0,
-			"allow_stitch": 0,
-			"sound_exemption": 0,
-			"geofencing_regions": [],
+		"post_common_info": {
 			"creation_id": creationID,
-			"is_uploaded_in_batch": False,
-			"is_enable_playlist": False,
-			"is_added_to_playlist": False,
+			"enter_post_page_from": 1,
+			"post_type": 3
 		},
-		"project_id": projectID,
-		"draft": "",
-		"single_upload_param": [],
-		"video_id": video_id,
-		"creation_id": creationID
+		"feature_common_info_list": [
+			{
+				"geofencing_regions": [],
+				"playlist_name": "",
+				"playlist_id": "",
+				"tcm_params": "{\"commerce_toggle_info\":{}}",
+				"sound_exemption": 0,
+				"anchors": [],
+				"vedit_common_info": {
+					"draft": "",
+					"video_id": video_id
+				},
+				"privacy_setting_info": {
+					"visibility_type": 0,
+					"allow_duet": 1,
+					"allow_stitch": 1,
+					"allow_comment": 1
+				}
+			}
+		],
+		"single_post_req_list": [
+			{
+				"batch_index": 0,
+				"video_id": video_id,
+				"is_long_video": 0,
+				"single_post_feature_info": {
+					"text": title,
+					"text_extra": text_extra,
+					"markup_text": title,
+					"music_info": {},
+					"poster_delay": 0,
+				}
+			}
+		]
 	}
 	if schedule_time == 0:
 		pass
@@ -116,7 +133,7 @@ def uploadVideo(session_id, video, title, tags, users=[], url_prefix="us", sched
 			f"the {margin_to_upload_video // 60} minutes of margin to upload the video")
 		return False
 	postQuery['X-Bogus'] = get_x_bogus(urlencode(postQuery), json.dumps(data, separators=(',', ':')), UA)
-	url = f'https://{url_prefix}.tiktok.com/api/v1/web/project/post/'
+	url = f'https://{url_prefix}.tiktok.com/tiktok/web/project/post/v1/'
 	headers = {
 		'Host': f'{url_prefix}.tiktok.com',
 		'content-type': 'application/json',
